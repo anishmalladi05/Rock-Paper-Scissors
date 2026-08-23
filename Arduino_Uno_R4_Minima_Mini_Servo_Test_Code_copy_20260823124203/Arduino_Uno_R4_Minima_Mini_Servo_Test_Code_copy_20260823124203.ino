@@ -1,0 +1,54 @@
+#include <Servo.h>
+#include <EEPROM.h>
+
+Servo myServo;
+
+const int servoPin = 9;
+const int ledPin = 13;
+
+const int angleRock = 0;
+const int anglePaper = 90;
+const int angleScissors = 180;
+
+void setup() {
+  myServo.attach(servoPin);
+  pinMode(ledPin, OUTPUT);
+  
+  myServo.write(45);
+
+  // Read the last saved value from permanent memory
+  byte storedVal = EEPROM.read(0);
+  
+  // Advance memory by a prime number (+37) so it scrambles the starting point
+  EEPROM.write(0, storedVal + 37);
+
+  // Use the memory value + electrical noise to seed the random engine
+  randomSeed(storedVal + analogRead(A5));
+
+  // --- COUNTDOWN PHASE (3 flashes) ---
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(ledPin, HIGH);
+    delay(300);
+    digitalWrite(ledPin, LOW);
+    delay(300);
+  }
+  
+  // Now random() starts at a completely different place every time you reset
+  int computerChoice = random(0, 3); 
+  
+  if (computerChoice == 0) {
+    myServo.write(angleRock);    // Rock
+  } 
+  else if (computerChoice == 1) {
+    myServo.write(anglePaper);   // Paper
+  } 
+  else {
+    myServo.write(angleScissors);// Scissors
+  }
+  
+  digitalWrite(ledPin, HIGH); // Lock LED ON
+}
+
+void loop() {
+  // Empty. Press reset to play again!
+}
