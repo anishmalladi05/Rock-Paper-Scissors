@@ -25,3 +25,6 @@ Copy paste the code into the sketch
 Hit upload
 <br></br>
 Done!
+
+## Images:
+<img width="701" height="903" alt="Screenshot 2026-08-29 at 6 21 04 PM" src="https://github.com/user-attachments/assets/0a2ea5a6-bff5-4fd3-b633-dc64c6106efe" />
